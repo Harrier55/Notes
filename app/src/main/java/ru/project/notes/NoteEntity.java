@@ -10,7 +10,7 @@ public class NoteEntity {
     private String description;
 
 
-    public NoteEntity(int id, String title, String description) {
+    public NoteEntity(String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;

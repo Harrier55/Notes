@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Список заметок</string>
     <string name="newNote">Заметка</string>
+    <string name="my_note">Моя заметка</string>
 </resources>
