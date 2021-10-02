@@ -9,38 +9,24 @@
     android:background="?android:selectableItemBackground">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-
-            app:cardBackgroundColor="@color/teal_700"
-            app:cardCornerRadius="8dp">
+            style="@style/card_view">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:divider="@color/black"
+                android:showDividers="middle">
 
                 <TextView
                     android:id="@+id/title_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textSize="27sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:padding="8dp"
+                    style="@style/title_text_view"
                     tools:text="Заметка"/>
 
                 <TextView
                     android:id="@+id/detail_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:textSize="18sp"
-                    android:textStyle="italic"
-                    android:padding="8dp"
+                    style="@style/detail_text_view"
                     tools:text="привет , я твой дневник"/>
 
             </LinearLayout>
