@@ -1,5 +1,6 @@
 package ru.project.notes;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
+    private static final String TAG = "@@@@@ NoteAdapter";
 
     private List<NoteEntity> data = new ArrayList<>();
     OnItemClickListener clickListener;
@@ -30,6 +32,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
+        Log.d(TAG, "position = [" + position + "]");
         NoteEntity note = getItem(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +41,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
             }
         });
         holder.titleTV.setText(note.getTitle());
-        holder.detailTV.setText(note.getDescription());
+        holder.detailTV.setText(note.getDetail());
+
     }
 
     private NoteEntity getItem(int position){

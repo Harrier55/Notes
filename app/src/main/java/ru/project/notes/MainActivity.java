@@ -1,24 +1,26 @@
 package ru.project.notes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private static final String TAG = "@@@@@ Main Activity";
     ActionBar actionBar;
-    private NotesRepo notesRepo = new NotesRepoImpl();
-    private NotesAdapter adapter = new NotesAdapter();
+    private final NotesRepo notesRepo = new NotesRepoImpl();
+    private final NotesAdapter adapter = new NotesAdapter();
+    private Integer currentItemId;
 
 
     @Override
@@ -32,24 +34,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecycler() {
-        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this::onItemClick);
-
         adapter.setData(notesRepo.getNotes());
-//        adapter.setOnItemClickListener(new NotesAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(NoteEntity item) {
-//                onItemClick(item);
-//            }
-//        });
-
     }
 
-    private void onItemClick(NoteEntity item) {
-        openNoteScreen();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,20 +49,57 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /***
+     * клик на элемент меню ActionBar
+     *
+     *
+     */
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        item.getItemId();
-//        Toast.makeText(this, "id" + item.getItemId(), Toast.LENGTH_SHORT).show();
-        openNoteScreen();
+        openNewNote();
         return super.onOptionsItemSelected(item);
-
     }
 
-    private void openNoteScreen() {
+
+    /***
+     * клик на выбор элемента списка RecyclerView
+     *
+     */
+    private void onItemClick(NoteEntity item) {
+
+        openNoteScreen(item);
+    }
+
+    /***
+     *  Старт новой Активити NoteEditActivity
+     *
+     */
+    private void openNoteScreen(NoteEntity item) {
         Intent intent = new Intent(this, NoteEditActivity.class);
-        startActivity(intent);
-
+        currentItemId = item.getId();
+        intent.putExtra("document", item);
+        startActivityForResult(intent, 1);
     }
+
+    private void openNewNote() {
+        Intent intent = new Intent(this, NoteEditActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK){
+        NoteEntity noteEntity = data.getParcelableExtra("return");
+        notesRepo.updateNote(0, noteEntity);
+//        notesRepo.updateNote(currentItemId, noteEntity);
+        }
+
+        initRecycler();
+    }
+
 
     private void generateTestRepo() {
         notesRepo.createNote(new NoteEntity("Заметка 1", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
@@ -84,5 +112,6 @@ public class MainActivity extends AppCompatActivity {
         notesRepo.createNote(new NoteEntity("Заметка 8", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
         notesRepo.createNote(new NoteEntity("Заметка 9", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
         notesRepo.createNote(new NoteEntity("Заметка 10", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+
     }
 }

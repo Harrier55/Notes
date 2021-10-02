@@ -1,5 +1,7 @@
 package ru.project.notes;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.List;
 public class NotesRepoImpl implements NotesRepo{
 
 
+
+    private static final String TAG ="@@@@ NoteRepoImplements";
 
     ArrayList<NoteEntity> cache = new ArrayList<>();
     private int counter = 0;
@@ -20,9 +24,10 @@ public class NotesRepoImpl implements NotesRepo{
     @Nullable
     @Override
     public Integer createNote(NoteEntity noteEntity) {
-        int newId = ++counter;
+        int newId = counter++;
         noteEntity.setId(newId);
         cache.add(noteEntity);
+        Log.d(TAG, "Id noteEntity create= [" + newId + "]");
         return newId;
     }
 
@@ -41,7 +46,7 @@ public class NotesRepoImpl implements NotesRepo{
     public boolean updateNote(int id, NoteEntity noteEntity) {
         deleteNote(id);
         noteEntity.setId(id);
-        cache.add(noteEntity);
+        cache.add(id,noteEntity);
         return true;
     }
 }

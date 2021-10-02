@@ -2,4 +2,7 @@
     <string name="app_name">Список заметок</string>
     <string name="newNote">Заметка</string>
     <string name="my_note">Моя заметка</string>
+    <string name="new_note">New note</string>
+    <string name="note_text">please write to me ... </string>
+    <string name="save_button_text">Сохранить</string>
 </resources>
