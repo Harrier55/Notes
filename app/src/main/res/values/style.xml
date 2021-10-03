@@ -34,7 +34,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:gravity">center</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">9dp</item>
         <item name="cardBackgroundColor">@color/color_note</item>
     </style>
 
