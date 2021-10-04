@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private final NotesRepo notesRepo = new NotesRepoImpl();
     private final NotesAdapter adapter = new NotesAdapter();
     private Integer currentItemId;
+
+    final int REQUEST_CODE_EDIT = 2;
+    final int REQUEST_CODE_NEW = 1;
 
 
     @Override
@@ -79,12 +83,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NoteEditActivity.class);
         currentItemId = item.getId();
         intent.putExtra("document", item);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_EDIT);
     }
 
     private void openNewNote() {
         Intent intent = new Intent(this, NoteEditActivity.class);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_NEW);
     }
 
     @Override
@@ -93,8 +97,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK){
         NoteEntity noteEntity = data.getParcelableExtra("return");
-        notesRepo.updateNote(0, noteEntity);
-//        notesRepo.updateNote(currentItemId, noteEntity);
+
+            if (requestCode == REQUEST_CODE_EDIT){
+
+                    int id = noteEntity.getId(); // почему то она всегда равна 2 ???
+
+                    notesRepo.updateNote(currentItemId, noteEntity);}
+
+            else if (requestCode == REQUEST_CODE_NEW){
+
+                notesRepo.createNote(noteEntity);
+            }
         }
 
         initRecycler();
