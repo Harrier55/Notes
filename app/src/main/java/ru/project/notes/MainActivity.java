@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE_NEW = 1;
 
     MainListFragment mainListFragment = new MainListFragment();
-    EditListItemFragment editListItemFragment = new EditListItemFragment();
+    NoteEditFragment noteEditFragment = new NoteEditFragment();
     NewListItemFragment newListItemFragment = new NewListItemFragment();
 
 
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 //        initRecycler();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         fragmentManager.beginTransaction()
                 .add(R.id.fragment_container, mainListFragment)
                 .commit();
