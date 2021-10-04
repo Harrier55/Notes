@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,14 +28,26 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE_EDIT = 2;
     final int REQUEST_CODE_NEW = 1;
 
+    MainListFragment mainListFragment = new MainListFragment();
+    EditListItemFragment editListItemFragment = new EditListItemFragment();
+    NewListItemFragment newListItemFragment = new NewListItemFragment();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home_for_fragment);
 
         generateTestRepo();
-        initRecycler();
+//        initRecycler();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, mainListFragment)
+                .commit();
+
 
     }
 
@@ -125,6 +139,5 @@ public class MainActivity extends AppCompatActivity {
         notesRepo.createNote(new NoteEntity("Заметка 8", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
         notesRepo.createNote(new NoteEntity("Заметка 9", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
         notesRepo.createNote(new NoteEntity("Заметка 10", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-
     }
 }
