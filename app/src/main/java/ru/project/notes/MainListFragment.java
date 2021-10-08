@@ -1,7 +1,9 @@
 package ru.project.notes;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,18 +14,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.logging.LogManager;
+
 
 public class MainListFragment extends Fragment {
 
     private static final String TAG = "@@@@@ Main Fragment";
-    private final NotesRepo notesRepo = new NotesRepoImpl();
+    private final static NotesRepoImpl notesRepo = new NotesRepoImpl();
     private final NotesAdapter adapter = new NotesAdapter();
+    private OnFragmentClickHandler onFragmentClickHandler;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentClickHandler){
+            onFragmentClickHandler = (OnFragmentClickHandler) context;
+        }else {throw new RuntimeException(context.toString()+ " must be implement OnFragment_DataListener");}
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            generateTestRepo();
+        notesRepo.getNotes();
+//        Log.d(TAG, "notesRepo = [" + notesRepo.getNotes() + "]");
     }
 
     @Override
@@ -42,26 +57,12 @@ public class MainListFragment extends Fragment {
         adapter.setData(notesRepo.getNotes());
     }
 
-    private void onItemClickRecyclerView(NoteEntity item) {
+    private void onItemClickRecyclerView(NoteEntity noteEntity) {
         // todo
-        int ee = item.getId();
-        Log.d(TAG, "onItemClick() called with: itemId = [" + ee + "]");
-        Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+        int ee = noteEntity.getId();
+//        Log.d(TAG, "onItemClick() called with: itemId = [" + ee + "]");
+//        Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+          onFragmentClickHandler.onClickItemListNote(noteEntity);
 
     }
-
-
-    private void generateTestRepo() {
-        notesRepo.createNote(new NoteEntity("Заметка 1", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 2", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 3", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 4", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 5", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 6", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 7", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 8", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 9", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 10", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-    }
-
 }

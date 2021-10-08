@@ -14,10 +14,12 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     private static final String TAG = "@@@@@ NoteAdapter";
 
+
     private List<NoteEntity> data = new ArrayList<>();
     OnItemClickListener clickListener;
 
     public void setData(List<NoteEntity> data){
+
         this.data = data;
         notifyDataSetChanged();
     }
@@ -32,7 +34,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        Log.d(TAG, "position = [" + position + "]");
+//        Log.d(TAG, "position = [" + position + "]");
         NoteEntity note = getItem(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

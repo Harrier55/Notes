@@ -1,25 +1,28 @@
 package ru.project.notes;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.content.Intent;
+import android.app.Application;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnFragmentClickHandler{
 
     private static final String TAG = "@@@@@ Main Activity";
+
+
     ActionBar actionBar;
-    private final NotesRepo notesRepo = new NotesRepoImpl();
+    private  NotesRepoImpl notesRepo = new NotesRepoImpl();
     private final NotesAdapter adapter = new NotesAdapter();
     private Integer currentItemId;
 
@@ -30,7 +33,19 @@ public class MainActivity extends AppCompatActivity {
     NoteEditFragment noteEditFragment = new NoteEditFragment();
     NewListItemFragment newListItemFragment = new NewListItemFragment();
 
+    @Override
+    public void onClickButtonSaveNoteEditFragment(NoteEntity editNoteEntity) {
+        Toast.makeText(this, "6666666", Toast.LENGTH_SHORT).show();
+        int idEdit= editNoteEntity.getId();
+        NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(),editNoteEntity.getDetail());
+        notesRepo.updateNote(idEdit,noteEntityEdit);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, mainListFragment)
+                .commit();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         generateTestRepo();
 //        initRecycler();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, mainListFragment)
-                .commit();
-
+        launcherFragment(mainListFragment);
 
     }
-
-    private void initRecycler() {
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this::onItemClick);
-        adapter.setData(notesRepo.getNotes());
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,65 +65,104 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    public void launcherFragment(Fragment classFragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, classFragment)
+                .commit();
+
+    }
+
+    @Override
+    public void onClickItemListNote(NoteEntity noteEntity) {
+
+        NoteEditFragment noteEditFragment = new NoteEditFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("one",noteEntity);
+        noteEditFragment.setArguments(bundle);
+
+        launcherFragment(noteEditFragment);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            launcherFragment(newListItemFragment);
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+//    private void initRecycler() {
+//        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(adapter);
+////        adapter.setOnItemClickListener(this::onItemClick);
+//        adapter.setData(notesRepo.getNotes());
+//    }
+
+
+
+
     /***
      * клик на элемент меню ActionBar
      *
      *
      */
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        openNewNote();
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        openNewNote();
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     /***
      * клик на выбор элемента списка RecyclerView
      *
      */
-    private void onItemClick(NoteEntity item) {
-
-        openNoteScreen(item);
-    }
+//    private void onItemClick(NoteEntity item) {
+//
+//        openNoteScreen(item);
+//    }
 
     /***
      *  Старт новой Активити NoteEditActivity
      *
      */
-    private void openNoteScreen(NoteEntity item) {
-        Intent intent = new Intent(this, NoteEditActivity.class);
-        currentItemId = item.getId();
-        intent.putExtra("document", item);
-        startActivityForResult(intent, REQUEST_CODE_EDIT);
-    }
+//    private void openNoteScreen(NoteEntity item) {
+//        Intent intent = new Intent(this, NoteEditActivity.class);
+//        currentItemId = item.getId();
+//        intent.putExtra("document", item);
+//        startActivityForResult(intent, REQUEST_CODE_EDIT);
+//    }
 
-    private void openNewNote() {
-        Intent intent = new Intent(this, NoteEditActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_NEW);
-    }
+//    private void openNewNote() {
+//        Intent intent = new Intent(this, NoteEditActivity.class);
+//        startActivityForResult(intent, REQUEST_CODE_NEW);
+//    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK){
-        NoteEntity noteEntity = data.getParcelableExtra("return");
-
-            if (requestCode == REQUEST_CODE_EDIT){
-
-                    int id = noteEntity.getId(); // почему то она всегда равна 2 ???
-
-                    notesRepo.updateNote(currentItemId, noteEntity);}
-
-            else if (requestCode == REQUEST_CODE_NEW){
-
-                notesRepo.createNote(noteEntity);
-            }
-        }
-
-        initRecycler();
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == RESULT_OK){
+//        NoteEntity noteEntity = data.getParcelableExtra("return");
+//
+//            if (requestCode == REQUEST_CODE_EDIT){
+//
+//                    int id = noteEntity.getId(); // почему то она всегда равна 2 ???
+//
+//                    notesRepo.updateNote(currentItemId, noteEntity);}
+//
+//            else if (requestCode == REQUEST_CODE_NEW){
+//
+//                notesRepo.createNote(noteEntity);
+//            }
+//        }
+//
+//        initRecycler();
+//    }
 
 
     private void generateTestRepo() {
