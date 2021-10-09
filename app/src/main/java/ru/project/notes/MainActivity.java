@@ -3,25 +3,32 @@ package ru.project.notes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItem;
+import androidx.appcompat.view.menu.MenuItemImpl;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import static androidx.appcompat.app.ActionBar.DISPLAY_HOME_AS_UP;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentClickHandler{
 
     private static final String TAG = "@@@@@ Main Activity";
 
 
-    ActionBar actionBar;
+
     private  NotesRepoImpl notesRepo = new NotesRepoImpl();
 //   private final NotesAdapter adapter = new NotesAdapter();
 
@@ -32,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_for_fragment);
-
         generateTestRepo();
         launcherFragment(mainListFragment);
     }
@@ -57,23 +63,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         int idEdit= editNoteEntity.getId();
         NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(),editNoteEntity.getDetail());
         notesRepo.updateNote(idEdit,noteEntityEdit);
-
+        setMainActionBar();
         launcherFragment(mainListFragment);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onClickItemListNote(NoteEntity noteEntity) {
         NoteEditFragment noteEditFragment = new NoteEditFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("one",noteEntity);
         noteEditFragment.setArguments(bundle);
-
+        setCustomActionBar(R.string.edit_note);
         launcherFragment(noteEditFragment);
     }
 
     @Override
     public void onClickButtonSaveNewListItemFragment(NoteEntity noteEntity) {
         notesRepo.createNote(noteEntity);
+        setMainActionBar();
         launcherFragment(mainListFragment);
     }
 
@@ -84,8 +92,23 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            launcherFragment(newListItemFragment);
+        setCustomActionBar(R.string.new_note);
+        launcherFragment(newListItemFragment);
         return super.onOptionsItemSelected(item);
+    }
+
+    void setCustomActionBar(int titleFragment){
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(titleFragment);
+        View menuItem = findViewById(R.id.addNote);
+        menuItem.setVisibility(View.INVISIBLE);
+    }
+
+    void setMainActionBar(){
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.app_name);
+        View menuItem = findViewById(R.id.addNote);
+        menuItem.setVisibility(View.VISIBLE);
     }
 
 
