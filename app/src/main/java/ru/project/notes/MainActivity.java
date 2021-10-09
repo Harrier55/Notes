@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,10 +28,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     private static final String TAG = "@@@@@ Main Activity";
 
-
-
     private  NotesRepoImpl notesRepo = new NotesRepoImpl();
-//   private final NotesAdapter adapter = new NotesAdapter();
 
     MainListFragment mainListFragment = new MainListFragment();
     NewListItemFragment newListItemFragment = new NewListItemFragment();
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         launcherFragment(mainListFragment);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -51,13 +48,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
     @Override
     public void onClickButtonSaveNoteEditFragment(NoteEntity editNoteEntity) {
         int idEdit= editNoteEntity.getId();
         NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(),editNoteEntity.getDetail());
         notesRepo.updateNote(idEdit,noteEntityEdit);
+
         setMainActionBar();
         launcherFragment(mainListFragment);
     }
@@ -69,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         Bundle bundle = new Bundle();
         bundle.putParcelable("one",noteEntity);
         noteEditFragment.setArguments(bundle);
+
         setCustomActionBar(R.string.edit_note);
         launcherFragment(noteEditFragment);
     }
@@ -94,9 +91,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     @Override
     public void onBackPressed() {
+
         setMainActionBar();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack();
+
+        if(fragmentManager.getBackStackEntryCount() != 0){
+            fragmentManager.popBackStack();}
+        else {super.onBackPressed();}
     }
 
     void launcherFragment(Fragment classFragment){
