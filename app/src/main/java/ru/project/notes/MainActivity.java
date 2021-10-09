@@ -51,12 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void launcherFragment(Fragment classFragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, classFragment)
-                .commit();
-    }
+
 
     @Override
     public void onClickButtonSaveNoteEditFragment(NoteEntity editNoteEntity) {
@@ -95,6 +90,28 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         setCustomActionBar(R.string.new_note);
         launcherFragment(newListItemFragment);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setMainActionBar();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+    }
+
+    void launcherFragment(Fragment classFragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(classFragment != mainListFragment){
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, classFragment)
+                .addToBackStack(null)
+                .commit();}
+        else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, classFragment)
+                    .commit();
+        }
     }
 
     void setCustomActionBar(int titleFragment){
