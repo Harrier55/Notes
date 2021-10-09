@@ -30,7 +30,7 @@ public class MainListFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentClickHandler){
             onFragmentClickHandler = (OnFragmentClickHandler) context;
-        }else {throw new RuntimeException(context.toString()+ " must be implement OnFragment_DataListener");}
+        }else {throw new RuntimeException(context.toString()+ " must be implement OnFragment_DataListener to MainListFragment");}
 
     }
 
@@ -38,7 +38,6 @@ public class MainListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notesRepo.getNotes();
-//        Log.d(TAG, "notesRepo = [" + notesRepo.getNotes() + "]");
     }
 
     @Override
@@ -58,10 +57,6 @@ public class MainListFragment extends Fragment {
     }
 
     private void onItemClickRecyclerView(NoteEntity noteEntity) {
-        // todo
-        int ee = noteEntity.getId();
-//        Log.d(TAG, "onItemClick() called with: itemId = [" + ee + "]");
-//        Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
           onFragmentClickHandler.onClickItemListNote(noteEntity);
 
     }
