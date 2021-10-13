@@ -35,24 +35,31 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         setContentView(R.layout.activity_home_for_fragment);
         initBottomNavigation();
         generateTestRepo();
-        launcherFragmentWithBackStack(mainListFragment);
+        launcherFragmentWithAddToBackStack(mainListFragment);
     }
 
     private void initBottomNavigation() {
         bottomNavigationView = findViewById(R.id.bottom_navi);
+
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_item_button_navi_profile:
+                        item.setChecked(true);
                         launchFragmentFromBottomNavigation(profileFragment);
+                        setActionBarCustom(R.string.profile);
                         break;
                     case R.id.menu_item_button_navi_setting:
+                        item.setChecked(true);
                         launchFragmentFromBottomNavigation(settingFragment);
+                        setActionBarCustom(R.string.setting);
                         break;
                     default:
+                        item.setChecked(true);
                         launchFragmentFromBottomNavigation(mainListFragment);
+                        setActionBarMain();
                 }
                 return false;
             }
@@ -66,21 +73,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void launchFragmentFromBottomNavigation(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
-
     @Override
     public void onClickButtonSaveNoteEditFragment(NoteEntity editNoteEntity) {
         int idEdit = editNoteEntity.getId();
         NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(), editNoteEntity.getDetail());
         notesRepo.updateNote(idEdit, noteEntityEdit);
 
-        setMainActionBar();
-        launcherFragmentWithBackStack(mainListFragment);
+        setActionBarMain();
+        launcherFragmentWithAddToBackStack(mainListFragment);
     }
 
     @SuppressLint("RestrictedApi")
@@ -91,33 +91,32 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         bundle.putParcelable("one", noteEntity);
         noteEditFragment.setArguments(bundle);
 
-        setCustomActionBar(R.string.edit_note);
-        launcherFragmentWithBackStack(noteEditFragment);
+        setActionBarCustom(R.string.edit_note);
+        launcherFragmentWithAddToBackStack(noteEditFragment);
     }
 
     @Override
     public void onClickButtonSaveNewListItemFragment(NoteEntity noteEntity) {
         notesRepo.createNote(noteEntity);
-        setMainActionBar();
-        launcherFragmentWithBackStack(mainListFragment);
+        setActionBarMain();
+        launcherFragmentWithAddToBackStack(mainListFragment);
     }
 
     /***
      * клик на элемент меню ActionBar
      *
-     *
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        setCustomActionBar(R.string.new_note);
-        launcherFragmentWithBackStack(newListItemFragment);
+        setActionBarCustom(R.string.new_note);
+        launcherFragmentWithAddToBackStack(newListItemFragment);
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
 
-        setMainActionBar();
+        setActionBarMain();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (fragmentManager.getBackStackEntryCount() != 0) {
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         }
     }
 
-    void launcherFragmentWithBackStack(Fragment classFragment) {
+    void launcherFragmentWithAddToBackStack(Fragment classFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (classFragment != mainListFragment) {
 
@@ -142,14 +141,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         }
     }
 
-    void setCustomActionBar(int titleFragment) {
+    public void launchFragmentFromBottomNavigation(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    void setActionBarCustom(int titleFragment) {
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(titleFragment);
         View menuItem = findViewById(R.id.addNote);
         menuItem.setVisibility(View.INVISIBLE);
     }
 
-    void setMainActionBar() {
+    void setActionBarMain() {
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.app_name);
         View menuItem = findViewById(R.id.addNote);
