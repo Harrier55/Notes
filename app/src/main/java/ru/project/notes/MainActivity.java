@@ -33,9 +33,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_for_fragment);
+
+        if(savedInstanceState == null){
+            generateTestRepo();
+            launcherFragmentWithAddToBackStack(mainListFragment);}
+
         initBottomNavigation();
         generateTestRepo();
-        launcherFragmentWithAddToBackStack(mainListFragment);
+
     }
 
     private void initBottomNavigation() {
