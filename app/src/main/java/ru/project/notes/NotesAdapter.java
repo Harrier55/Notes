@@ -58,7 +58,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
      *
      * А слушатель holder.itemView.setOnClickListener  переносим в
      * новый конструктор
-     * по идее его можно расположить в етодк bind или в конструкторе
+     * по идее его можно расположить в методе bind или в конструкторе
      * но bind будет постоянно вызываться, а он тяжелый
      *
      * попутно заводим переменную private NoteEntity noteEntity - строка 30 холдера
@@ -69,8 +69,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        NoteEntity note = getItem(position);
-        holder.bind(note);
+        NoteEntity noteEntity = getItem(position);
+        holder.bind(noteEntity);
     }
 
     private NoteEntity getItem(int position){
