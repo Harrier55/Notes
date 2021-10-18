@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     }
 
+
     private void initBottomNavigation() {
         bottomNavigationView = findViewById(R.id.bottom_navi);
 
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
             }
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,6 +108,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         notesRepo.createNote(noteEntity);
         setActionBarMain();
         launcherFragmentWithAddToBackStack(mainListFragment);
+    }
+
+    @Override
+    public void onClickButtonMenuItemNoteWidget() {
+        // todo
+
     }
 
     /***
