@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NoteViewHolder extends RecyclerView.ViewHolder {
+public class NoteViewHolder extends RecyclerView.ViewHolder  {
 
     private TextView titleTV = itemView.findViewById(R.id.title_text_view);
     private TextView detailTV = itemView.findViewById(R.id.detail_text_view);
@@ -23,13 +23,16 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     }
 
     private NoteEntity noteEntity;
-    private OnFragmentClickHandler onFragmentClickHandler;
+    private OnItemClickListenerPopUpMenu onItemClickListenerPopUpMenu;
+
+
 
     /*** Пункт 1
      * создали новый конструктор
      */
-    public NoteViewHolder(ViewGroup parent, NotesAdapter.OnItemClickListener clickListener){
+    public NoteViewHolder(ViewGroup parent, NotesAdapter.OnItemClickListener clickListener, OnItemClickListenerPopUpMenu onItemClickListenerPopUpMenu){
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note,parent,false));
+        this.onItemClickListenerPopUpMenu = onItemClickListenerPopUpMenu;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,35 +41,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
                 clickListener.onItemClick(noteEntity);
             }
         });
-        menuItemNoteWidgetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Toast.makeText(titleTV.getContext(), noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
-
-
-
-
-                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                popupMenu.inflate(R.menu.menu_pop_up);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.menu_popup_delete:
-                                Toast.makeText(titleTV.getContext(), "qqqqqqqq", Toast.LENGTH_SHORT).show();
-//                                onFragmentClickHandler.onClickButtonMenuItemNoteWidget();break;
-                            case R.id.menu_popup_replace:
-                                Toast.makeText(titleTV.getContext(), "uuuuuuuuuuu", Toast.LENGTH_SHORT).show();break;
-                        }
-
-                        return true;
-                    }
-                });
-                popupMenu.show();
-
-            }
-        });
 
     }
     /***Пункт 2.
@@ -80,8 +55,32 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         this.noteEntity = noteEntity;
         titleTV.setText(noteEntity.getTitle());
         detailTV.setText(noteEntity.getDetail());
+
+        menuItemNoteWidgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(titleTV.getContext(), noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
+
+                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                popupMenu.inflate(R.menu.menu_pop_up);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.menu_popup_delete:
+
+                                Toast.makeText(titleTV.getContext(), noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
+                                onItemClickListenerPopUpMenu.onClickItemPopUpMenu(menuItem);break;
+
+                            case R.id.menu_popup_replace:
+//                                Toast.makeText(titleTV.getContext(), "uuuuuuuuuuu", Toast.LENGTH_SHORT).show();break;
+//                            onItemClickListenerPopUpMenu.onClickItemPopUpMenu(menuItem);break;
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
     }
-
-
-
 }

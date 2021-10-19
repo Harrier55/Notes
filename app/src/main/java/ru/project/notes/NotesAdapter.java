@@ -1,8 +1,5 @@
 package ru.project.notes;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,11 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
+public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder>  {
     private static final String TAG = "@@@@@ NoteAdapter";
 
     private List<NoteEntity> data = new ArrayList<>();
     private OnItemClickListener clickListener;
+    private OnItemClickListenerPopUpMenu onItemClickListenerPopUpMenu;
+
+    public void setOnItemClickListenerPopUpMenu(OnItemClickListenerPopUpMenu onItemClickListenerPopUpMenu) {
+        this.onItemClickListenerPopUpMenu = onItemClickListenerPopUpMenu;
+    }
+
 
     public void setData(List<NoteEntity> data){
         this.data = data;
@@ -37,7 +40,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NoteViewHolder(parent,clickListener);
+
+            return new NoteViewHolder(parent,clickListener,onItemClickListenerPopUpMenu);
     }
 
     /*** Пункт 2. Вынносим логику из onBindViewHolder
@@ -89,4 +93,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     interface OnItemClickListener{
         void onItemClick(NoteEntity item);
     }
+
+
+
 }

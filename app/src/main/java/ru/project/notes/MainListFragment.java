@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import java.util.logging.LogManager;
 
 
 public class MainListFragment extends Fragment {
@@ -53,11 +51,16 @@ public class MainListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this::onItemClickRecyclerView);
+        adapter.setOnItemClickListenerPopUpMenu(this::onItemClickPopUpMenu);
         adapter.setData(notesRepo.getNotes());
     }
 
     private void onItemClickRecyclerView(NoteEntity noteEntity) {
           onFragmentClickHandler.onClickItemListNote(noteEntity);
+    }
 
+    private void onItemClickPopUpMenu(MenuItem menuItem){
+        menuItem.getTitle();
+        Toast.makeText(getActivity(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }
