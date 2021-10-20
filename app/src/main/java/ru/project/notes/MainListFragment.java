@@ -1,5 +1,6 @@
 package ru.project.notes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -46,6 +47,7 @@ public class MainListFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView(View view){
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_fragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -53,14 +55,22 @@ public class MainListFragment extends Fragment {
         adapter.setOnItemClickListener(this::onItemClickRecyclerView);
         adapter.setOnItemClickListenerPopUpMenu(this::onItemClickPopUpMenu);
         adapter.setData(notesRepo.getNotes());
+
+
     }
 
     private void onItemClickRecyclerView(NoteEntity noteEntity) {
           onFragmentClickHandler.onClickItemListNote(noteEntity);
     }
 
-    private void onItemClickPopUpMenu(MenuItem menuItem){
-        menuItem.getTitle();
-        Toast.makeText(getActivity(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+    private void onItemClickPopUpMenu(MenuItem menuItem,NoteEntity noteEntity){
+        onFragmentClickHandler.onClickButtonMenuNoteWidget(menuItem,noteEntity);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateRecyclerView(){
+        adapter.setData(notesRepo.getNotes());
+        adapter.notifyDataSetChanged();
+
     }
 }

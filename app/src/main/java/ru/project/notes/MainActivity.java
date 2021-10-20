@@ -8,10 +8,12 @@ import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -34,12 +36,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_for_fragment);
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             generateTestRepo();
-            launcherFragmentWithAddToBackStack(mainListFragment);}
+            launcherFragmentWithAddToBackStack(mainListFragment);
+        }
 
         initBottomNavigation();
-        generateTestRepo();
+//        generateTestRepo();
 
     }
 
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -86,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         int idEdit = editNoteEntity.getId();
         NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(), editNoteEntity.getDetail());
         notesRepo.updateNote(idEdit, noteEntityEdit);
-
         setActionBarMain();
         launcherFragmentWithAddToBackStack(mainListFragment);
     }
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         Bundle bundle = new Bundle();
         bundle.putParcelable("one", noteEntity);
         noteEditFragment.setArguments(bundle);
-
         setActionBarCustom(R.string.edit_note);
         launcherFragmentWithAddToBackStack(noteEditFragment);
     }
@@ -111,9 +111,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     }
 
     @Override
-    public void onClickButtonMenuItemNoteWidget() {
-        // todo
+    public void onClickButtonMenuNoteWidget(MenuItem menuItem, NoteEntity noteEntity) {
 
+        switch (menuItem.getItemId()) {
+            case R.id.menu_popup_delete:
+                Toast.makeText(this, "Удалена " + noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
+                notesRepo.deleteNote(noteEntity.getId());
+                mainListFragment.updateRecyclerView();
+                break;
+            case R.id.menu_popup_replace:
+                //todo
+                break;
+        }
     }
 
     /***

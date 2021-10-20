@@ -56,31 +56,14 @@ public class NoteViewHolder extends RecyclerView.ViewHolder  {
         titleTV.setText(noteEntity.getTitle());
         detailTV.setText(noteEntity.getDetail());
 
-        menuItemNoteWidgetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Toast.makeText(titleTV.getContext(), noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
-
-                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                popupMenu.inflate(R.menu.menu_pop_up);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.menu_popup_delete:
-
-                                Toast.makeText(titleTV.getContext(), noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
-                                onItemClickListenerPopUpMenu.onClickItemPopUpMenu(menuItem);break;
-
-                            case R.id.menu_popup_replace:
-//                                Toast.makeText(titleTV.getContext(), "uuuuuuuuuuu", Toast.LENGTH_SHORT).show();break;
-//                            onItemClickListenerPopUpMenu.onClickItemPopUpMenu(menuItem);break;
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.show();
-            }
+        menuItemNoteWidgetButton.setOnClickListener((View view) -> {
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+            popupMenu.inflate(R.menu.menu_pop_up);
+            popupMenu.setOnMenuItemClickListener((MenuItem menuItem) -> {
+                onItemClickListenerPopUpMenu.onClickItemPopUpMenu(menuItem,noteEntity);
+                return true;
+            });
+            popupMenu.show();
         });
     }
 }
