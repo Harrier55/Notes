@@ -1,12 +1,15 @@
 package ru.project.notes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +31,9 @@ import ru.project.notes.ui.SettingFragment;
 public class MainActivity extends AppCompatActivity implements OnFragmentClickHandler {
 
     private static final String TAG = "@@@@@ Main Activity";
+
+    public static int CLOSE = 1;
+
 
     private NotesRepoImpl notesRepo = new NotesRepoImpl();
 
@@ -94,14 +100,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         launcherFragmentWithAddToBackStack(mainListFragment);
     }
 
-    public void editNote(NoteEntity editNoteEntity){
-        int idEdit = editNoteEntity.getId();
-        NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(), editNoteEntity.getDetail());
-        notesRepo.updateNote(idEdit, noteEntityEdit);
-        mainListFragment.updateRecyclerView();
-
-    }
-
     @SuppressLint("RestrictedApi")
     @Override
     public void onClickItemListNote(NoteEntity noteEntity) {
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     @Override
     public void onClickButtonSaveNewListItemFragment(NoteEntity noteEntity) {
-        notesRepo.createNote(noteEntity);
+        createNewNote(noteEntity);
         setActionBarMain();
         launcherFragmentWithAddToBackStack(mainListFragment);
     }
@@ -148,8 +146,36 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         if (fragmentManager.getBackStackEntryCount() != 0) {
             fragmentManager.popBackStack();
         } else {
-            super.onBackPressed();
+            showClosingDialog();
+//            super.onBackPressed();
         }
+    }
+
+    public void showClosingDialog(){
+
+        new AlertDialog.Builder(this)
+                .setTitle("Уже уходите ?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("Передумал",null)
+                .show();
+
+    }
+
+
+    public void createNewNote(NoteEntity noteEntity){
+        notesRepo.createNote(noteEntity);
+    }
+
+    public void editNote(NoteEntity editNoteEntity){
+        int idEdit = editNoteEntity.getId();
+        NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(), editNoteEntity.getDetail());
+        notesRepo.updateNote(idEdit, noteEntityEdit);
+        mainListFragment.updateRecyclerView();
     }
 
     void deleteNote(NoteEntity noteEntity){
