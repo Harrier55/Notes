@@ -1,8 +1,10 @@
-package ru.project.notes;
+package ru.project.notes.domain;
 
 import androidx.annotation.Nullable;
 
 import java.util.List;
+
+import ru.project.notes.Entity.NoteEntity;
 
 public interface NotesRepo {
 

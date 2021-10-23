@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +16,14 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import ru.project.notes.Entity.NoteEntity;
+import ru.project.notes.domain.NotesRepoImpl;
+import ru.project.notes.listener.OnFragmentClickHandler;
+import ru.project.notes.ui.NewListItemFragment;
+import ru.project.notes.ui.NoteEditFragment;
+import ru.project.notes.ui.ProfileFragment;
+import ru.project.notes.ui.SettingFragment;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentClickHandler {
 
@@ -40,10 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
             generateTestRepo();
             launcherFragmentWithAddToBackStack(mainListFragment);
         }
-
         initBottomNavigation();
-//        generateTestRepo();
-
     }
 
 
@@ -85,11 +89,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     @Override
     public void onClickButtonSaveNoteEditFragment(NoteEntity editNoteEntity) {
+        editNote(editNoteEntity);
+        setActionBarMain();
+        launcherFragmentWithAddToBackStack(mainListFragment);
+    }
+
+    public void editNote(NoteEntity editNoteEntity){
         int idEdit = editNoteEntity.getId();
         NoteEntity noteEntityEdit = new NoteEntity(editNoteEntity.getTitle(), editNoteEntity.getDetail());
         notesRepo.updateNote(idEdit, noteEntityEdit);
-        setActionBarMain();
-        launcherFragmentWithAddToBackStack(mainListFragment);
+        mainListFragment.updateRecyclerView();
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -112,22 +122,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     @Override
     public void onClickButtonMenuNoteWidget(MenuItem menuItem, NoteEntity noteEntity) {
-
         switch (menuItem.getItemId()) {
-            case R.id.menu_popup_delete:
-                Toast.makeText(this, "Удалена " + noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
-                notesRepo.deleteNote(noteEntity.getId());
-                mainListFragment.updateRecyclerView();
+            case R.id.menu_popup_delete: deleteNote(noteEntity);
                 break;
-            case R.id.menu_popup_replace:
-                //todo
+            case R.id.menu_popup_replace://todo
                 break;
         }
     }
 
     /***
      * клик на элемент меню ActionBar
-     *
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -138,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     @Override
     public void onBackPressed() {
-
         setActionBarMain();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -147,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         } else {
             super.onBackPressed();
         }
+    }
+
+    void deleteNote(NoteEntity noteEntity){
+        notesRepo.deleteNote(noteEntity.getId());
+        mainListFragment.updateRecyclerView();
+        Toast.makeText(this, "Удалена " + noteEntity.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     void launcherFragmentWithAddToBackStack(Fragment classFragment) {

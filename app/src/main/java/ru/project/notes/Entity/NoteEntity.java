@@ -1,4 +1,4 @@
-package ru.project.notes;
+package ru.project.notes.Entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,7 +1,8 @@
-package ru.project.notes;
+package ru.project.notes.listener;
 
 import android.view.MenuItem;
-import android.view.View;
+
+import ru.project.notes.Entity.NoteEntity;
 
 public interface OnFragmentClickHandler {
 

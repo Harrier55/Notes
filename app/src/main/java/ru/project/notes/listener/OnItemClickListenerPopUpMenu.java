@@ -1,6 +1,8 @@
-package ru.project.notes;
+package ru.project.notes.listener;
 
 import android.view.MenuItem;
+
+import ru.project.notes.Entity.NoteEntity;
 
 public interface OnItemClickListenerPopUpMenu {
 

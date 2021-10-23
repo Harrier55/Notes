@@ -1,11 +1,11 @@
-package ru.project.notes;
-
-import android.util.Log;
+package ru.project.notes.domain;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.project.notes.Entity.NoteEntity;
 
 public class NotesRepoImpl implements NotesRepo {
 

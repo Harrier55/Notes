@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.project.notes.Entity.NoteEntity;
+import ru.project.notes.listener.OnItemClickListenerPopUpMenu;
+
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder>  {
     private static final String TAG = "@@@@@ NoteAdapter";
 

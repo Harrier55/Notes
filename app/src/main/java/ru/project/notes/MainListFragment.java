@@ -13,7 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import ru.project.notes.Entity.NoteEntity;
+import ru.project.notes.domain.NotesRepoImpl;
+import ru.project.notes.listener.OnFragmentClickHandler;
 
 
 public class MainListFragment extends Fragment {
@@ -52,11 +55,9 @@ public class MainListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_fragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this::onItemClickRecyclerView);
+        adapter.setOnItemClickListener(noteEntity -> onItemClickRecyclerView(noteEntity));
         adapter.setOnItemClickListenerPopUpMenu(this::onItemClickPopUpMenu);
         adapter.setData(notesRepo.getNotes());
-
-
     }
 
     private void onItemClickRecyclerView(NoteEntity noteEntity) {

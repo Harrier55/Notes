@@ -11,4 +11,6 @@
     <string name="edit_note">Редактирование заметки</string>
     <string name="profile">Профиль</string>
     <string name="setting">Настойки</string>
+    <string name="delete_note">Удалить заметку</string>
+    <string name="go_go_note">Что-то сделать</string>
 </resources>

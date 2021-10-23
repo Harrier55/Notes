@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_popup_delete"
-        android:title="Удалить заметку">
+        android:title="@string/delete_note">
 
     </item>
 
     <item
         android:id="@+id/menu_popup_replace"
-        android:title="Что-то сделать">
+        android:title="@string/go_go_note">
 
     </item>
 

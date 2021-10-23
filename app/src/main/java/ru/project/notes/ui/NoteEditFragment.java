@@ -1,4 +1,4 @@
-package ru.project.notes;
+package ru.project.notes.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import ru.project.notes.Entity.NoteEntity;
+import ru.project.notes.listener.OnFragmentClickHandler;
+import ru.project.notes.R;
 
 
 public class NoteEditFragment extends Fragment {
