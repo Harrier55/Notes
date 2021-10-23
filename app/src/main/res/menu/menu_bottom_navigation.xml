@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_item_button_navi_note"
+        android:title="@string/app_name"
+        android:icon="@drawable/ic_notes">
+    </item>
+
+    <item
+        android:id="@+id/menu_item_button_navi_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/ic_profile">
+    </item>
+
+    <item
+        android:id="@+id/menu_item_button_navi_setting"
+        android:title="@string/setting"
+        android:icon="@drawable/ic_settings">
+    </item>
+
+</menu>

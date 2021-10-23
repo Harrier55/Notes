@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NoteEditActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            style="@style/card_view">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/title_edit_text"
+                    style="@style/title_text_view"
+                    android:hint="@string/new_note"/>
+
+                <EditText
+                    android:id="@+id/detail_edit_text"
+                    style="@style/detail_text_view"
+                    android:hint="@string/note_text"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/button_save"
+            android:text="@string/save_button_text" />
+
+
+
+    </LinearLayout>
+
+
+
+</FrameLayout>

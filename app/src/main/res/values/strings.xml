@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Список заметок</string>
+    <string name="newNote">Заметка</string>
+    <string name="my_note">Моя заметка</string>
+    <string name="new_note">Новая заметка</string>
+    <string name="note_text">please write to me ... </string>
+    <string name="save_button_text">Сохранить</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_setting_fragment">Hello setting fragment</string>
+    <string name="hello_profile_fragment">Hello profile fragment</string>
+    <string name="edit_note">Редактирование заметки</string>
+    <string name="profile">Профиль</string>
+    <string name="setting">Настойки</string>
+    <string name="delete_note">Удалить заметку</string>
+    <string name="go_go_note">Что-то сделать</string>
 </resources>
