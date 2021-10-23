@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:selectableItemBackground">
+
+    <androidx.cardview.widget.CardView
+        style="@style/card_view">
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@color/black"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/title_text_view"
+                    style="@style/title_text_view"
+                    android:text="Уже уходишь ?"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_text_view"
+                    style="@style/detail_text_view"
+                    android:text="я буду хранить твои записи..." />
+
+            </LinearLayout>
+
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

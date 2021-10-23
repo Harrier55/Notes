@@ -140,11 +140,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     @Override
     public void onBackPressed() {
-        setActionBarMain();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (fragmentManager.getBackStackEntryCount() != 0) {
-            fragmentManager.popBackStack();
+            setActionBarMain();
+            fragmentManager.popBackStack("myFrag",FragmentManager.POP_BACK_STACK_INCLUSIVE);
         } else {
             showClosingDialog();
 //            super.onBackPressed();
@@ -152,20 +152,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     }
 
     public void showClosingDialog(){
-
         new AlertDialog.Builder(this)
-                .setTitle("Уже уходите ?")
-                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("Передумал",null)
+                .setView(R.layout.item_dialog)
+                .setPositiveButton("Ухожу", (dialogInterface, i) -> finish())
+                .setNegativeButton("Остаюсь",null)
                 .show();
-
     }
-
 
     public void createNewNote(NoteEntity noteEntity){
         notesRepo.createNote(noteEntity);
@@ -190,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, classFragment)
-                    .addToBackStack(null)
+                    .addToBackStack("myFrag")
                     .commit();
         } else {
             fragmentManager.beginTransaction()
