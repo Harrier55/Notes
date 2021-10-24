@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import android.annotation.SuppressLint;
 
 import android.os.Bundle;
-import android.view.Gravity;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
                 .setPositiveButton("Ухожу", (dialogInterface, i) -> {
                     Toast.makeText(this, "Пока...пока", Toast.LENGTH_SHORT).show();
                     finish();
-
                 })
                 .setNegativeButton("Остаюсь",null)
                 .show();
