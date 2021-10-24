@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_popup_delete"
+        android:title="@string/delete_note">
+
+    </item>
+
+    <item
+        android:id="@+id/menu_popup_replace"
+        android:title="@string/go_go_note">
+
+    </item>
+
+</menu>
