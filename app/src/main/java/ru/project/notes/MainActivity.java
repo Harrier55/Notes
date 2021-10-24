@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentManager;
 
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,10 +32,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     private static final String TAG = "@@@@@ Main Activity";
 
-    public static int CLOSE = 1;
-
-
-    private NotesRepoImpl notesRepo = new NotesRepoImpl();
+    private final NotesRepoImpl notesRepo = new NotesRepoImpl();
 
     MainListFragment mainListFragment = new MainListFragment();
     NewListItemFragment newListItemFragment = new NewListItemFragment();
@@ -59,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     private void initBottomNavigation() {
         bottomNavigationView = findViewById(R.id.bottom_navi);
-
-
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -154,7 +149,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     public void showClosingDialog(){
         new AlertDialog.Builder(this)
                 .setView(R.layout.item_dialog)
-                .setPositiveButton("Ухожу", (dialogInterface, i) -> finish())
+                .setPositiveButton("Ухожу", (dialogInterface, i) -> {
+                    Toast.makeText(this, "Пока...пока", Toast.LENGTH_SHORT).show();
+                    finish();
+
+                })
                 .setNegativeButton("Остаюсь",null)
                 .show();
     }
