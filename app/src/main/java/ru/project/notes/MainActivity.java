@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     NewListItemFragment newListItemFragment = new NewListItemFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     SettingFragment settingFragment = new SettingFragment();
-
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -136,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         if (fragmentManager.getBackStackEntryCount() != 0) {
             setActionBarMain();
             fragmentManager.popBackStack("myFrag",FragmentManager.POP_BACK_STACK_INCLUSIVE);
