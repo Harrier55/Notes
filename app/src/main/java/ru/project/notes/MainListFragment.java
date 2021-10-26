@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ru.project.MyApp;
 import ru.project.notes.Entity.NoteEntity;
 import ru.project.notes.domain.NotesRepoImpl;
 import ru.project.notes.listener.OnFragmentClickHandler;
@@ -22,10 +23,16 @@ import ru.project.notes.listener.OnFragmentClickHandler;
 public class MainListFragment extends Fragment {
 
     private static final String TAG = "@@@@@ Main Fragment";
-    private final static NotesRepoImpl notesRepo = new NotesRepoImpl();
+//    private final static NotesRepoImpl notesRepo = new NotesRepoImpl();
+
+    private  static NotesRepoImpl notesRepo;
     private final NotesAdapter adapter = new NotesAdapter();
     private OnFragmentClickHandler onFragmentClickHandler;
 
+
+    private void initNotesRepoFromMyApp(){
+        notesRepo = ((MyApp)getActivity().getApplicationContext()).getMyAppNotesRepo();
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -39,6 +46,7 @@ public class MainListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initNotesRepoFromMyApp();
         notesRepo.getNotes();
     }
 
