@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import ru.project.MyApp;
 import ru.project.notes.Entity.NoteEntity;
 import ru.project.notes.domain.NotesRepoImpl;
 import ru.project.notes.listener.OnFragmentClickHandler;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
 
     private static final String TAG = "@@@@@ Main Activity";
 
-    private final NotesRepoImpl notesRepo = new NotesRepoImpl();
+//    private final NotesRepoImpl notesRepo = new NotesRepoImpl();
+
+    NotesRepoImpl notesRepo;
 
     MainListFragment mainListFragment = new MainListFragment();
     NewListItemFragment newListItemFragment = new NewListItemFragment();
@@ -45,11 +48,20 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_for_fragment);
 
+        initNotesRepoFromMyApp();
+
+//        notesRepo = ((MyApp)getApplicationContext()).getMyAppNotesRepo();
+
         if (savedInstanceState == null) {
-            generateTestRepo();
+            ((MyApp)getApplicationContext()).generateTestRepo();
+//            generateTestRepo();
             launcherFragmentWithAddToBackStack(mainListFragment);
         }
         initBottomNavigation();
+    }
+
+    private void initNotesRepoFromMyApp(){
+        notesRepo = ((MyApp)getApplicationContext()).getMyAppNotesRepo();
     }
 
 
@@ -209,16 +221,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentClickHa
     }
 
 
-    private void generateTestRepo() {
-        notesRepo.createNote(new NoteEntity("Заметка 1", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 2", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 3", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 4", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 5", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 6", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 7", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 8", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 9", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-        notesRepo.createNote(new NoteEntity("Заметка 10", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
-    }
+//    private void generateTestRepo() {
+//        notesRepo.createNote(new NoteEntity("Заметка 1", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 2", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 3", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 4", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 5", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 6", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 7", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 8", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 9", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//        notesRepo.createNote(new NoteEntity("Заметка 10", "Миновало лето,Осень наступила.На полях и в рощах Пусто и уныло."));
+//    }
 }
