@@ -20,22 +20,25 @@ import ru.project.notes.R;
 public class NoteEditFragment extends Fragment {
 
     NoteEntity noteEntity;
-    private int idItemNote;
+    private EditText titleEditText;
+    private EditText detailEditText;
+    private Button saveButton;
     private OnFragmentClickHandler onFragmentClickHandler;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentClickHandler){
+        if (context instanceof OnFragmentClickHandler) {
             onFragmentClickHandler = (OnFragmentClickHandler) context;
-        } else {throw new RuntimeException(context.toString()+ " must implement OnFragmentClickHandler to NoteEditFrag");}
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentClickHandler to NoteEditFrag");
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         noteEntity = getArguments().getParcelable("one");
-        idItemNote = noteEntity.getId();
     }
 
     @Override
@@ -43,23 +46,24 @@ public class NoteEditFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_note_edit, container, false);
-        EditText titleEditText = view.findViewById(R.id.title_edit_text);
-        EditText detailEditText = view.findViewById(R.id.detail_edit_text);
-        Button saveButton = view.findViewById(R.id.save_button);
+
+        initView(view);
 
         titleEditText.setText(noteEntity.getTitle());
         detailEditText.setText(noteEntity.getDetail());
 
         saveButton.setOnClickListener(view1 -> {
-
             String title = titleEditText.getText().toString();
             String detail = detailEditText.getText().toString();
-
-            NoteEntity noteEntityNew = new NoteEntity(idItemNote,title,detail);
-
+            NoteEntity noteEntityNew = new NoteEntity(noteEntity.getId(), title, detail);
             onFragmentClickHandler.onClickButtonSaveNoteEditFragment(noteEntityNew);
         });
         return view;
     }
 
+    public void initView(View view) {
+        titleEditText = view.findViewById(R.id.title_edit_text);
+        detailEditText = view.findViewById(R.id.detail_edit_text);
+        saveButton = view.findViewById(R.id.save_button);
+    }
 }
