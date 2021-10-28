@@ -14,10 +14,11 @@ import ru.project.notes.Entity.NoteEntity
 import java.lang.RuntimeException
 
 class NewListItemFragment : Fragment() {
-    private var titleEditText: EditText? = null
-    private var detailEditText: EditText? = null
-    private var saveButton: Button? = null
+    private lateinit var titleEditText: EditText
+    private lateinit var detailEditText: EditText
+    private lateinit var saveButton: Button
     private var onFragmentClickHandler: OnFragmentClickHandler? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         onFragmentClickHandler = if (context is OnFragmentClickHandler) {
@@ -35,12 +36,31 @@ class NewListItemFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_edit, container, false)
         initView(view)
-        saveButton!!.setOnClickListener { view1: View? ->
-            val title = titleEditText!!.text.toString()
-            val detail = detailEditText!!.text.toString()
-            val noteEntityNew = NoteEntity(title, detail)
+
+        // Так преобразовала студия
+
+//        saveButton.setOnClickListener { view1: View? ->
+//            val noteEntityNew = NoteEntity(titleEditText.text.toString(), detailEditText.text.toString())
+//
+//            onFragmentClickHandler!!.onClickButtonSaveNewListItemFragment(noteEntityNew)
+//        }
+
+        // Способ слушателя аналогичный Java
+
+//        saveButton.setOnClickListener(object :View.OnClickListener{
+//            override fun onClick(p0: View?) {
+//                val noteEntityNew = NoteEntity(titleEditText.text.toString(), detailEditText.text.toString())
+//                onFragmentClickHandler!!.onClickButtonSaveNewListItemFragment(noteEntityNew)
+//            }
+//        })
+
+        // Способ с лямбдой
+
+        saveButton.setOnClickListener { v ->
+            val noteEntityNew = NoteEntity(titleEditText.text.toString(), detailEditText.text.toString())
             onFragmentClickHandler!!.onClickButtonSaveNewListItemFragment(noteEntityNew)
         }
+
         return view
     }
 
